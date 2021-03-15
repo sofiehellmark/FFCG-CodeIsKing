@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.808.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StraightFlush.Program", "StraightFlush\StraightFlush.Program.csproj", "{4B008008-9C78-4765-A4A9-FE02A124AB25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StraightFlust.Test", "StraightFlust.Test\StraightFlust.Test.csproj", "{C4E3BF09-5CB3-4D8A-95EE-ECE5ECF8E532}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B008008-9C78-4765-A4A9-FE02A124AB25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B008008-9C78-4765-A4A9-FE02A124AB25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B008008-9C78-4765-A4A9-FE02A124AB25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B008008-9C78-4765-A4A9-FE02A124AB25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4E3BF09-5CB3-4D8A-95EE-ECE5ECF8E532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4E3BF09-5CB3-4D8A-95EE-ECE5ECF8E532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4E3BF09-5CB3-4D8A-95EE-ECE5ECF8E532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4E3BF09-5CB3-4D8A-95EE-ECE5ECF8E532}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C13202A-7EB8-41E1-A865-75944197A231}
+	EndGlobalSection
+EndGlobal
