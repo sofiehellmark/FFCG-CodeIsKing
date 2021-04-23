@@ -20,8 +20,10 @@ namespace AnalyzeWeather
 
             Console.WriteLine("SMHI");
             var Sthlm = 98230;
-            var Lund = 53430;
-            List<TemperatureModel> TemperatureDataSmhi = await new SMHIDataToTemperatureReader(Lund).GetData();
+           // var Lund = 53430;
+            List<TemperatureModel> TemperatureDataSmhi = await new SMHIDataToTemperatureReader(Sthlm).GetData();
+            Console.WriteLine("SMHI2");
+
             var smhireport = new WeatherReport(TemperatureDataSmhi).GetReport();
 
             Console.WriteLine(smhireport);

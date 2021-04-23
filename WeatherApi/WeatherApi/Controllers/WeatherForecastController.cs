@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace WeatherApi.Controllers
 {
@@ -11,36 +8,46 @@ namespace WeatherApi.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-// private readonly IWeatherSercvice _weatherservice; // interface med getwarmest som tar in list of  temperature model och 
 
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        private readonly WeatherAnalyzer _weatheranalyzer; 
 
-        private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IDataReader _dataReader; 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IDataReader dataReader)
+        private readonly IDataReader _dataReader;
+
+        public WeatherForecastController(IDataReader dataReader, WeatherAnalyzer weatheranalyzer)
         {
+
             _dataReader = dataReader;
-            _logger = logger;
+            _weatheranalyzer = weatheranalyzer; 
 
         }
 
         [HttpGet]
-        public ActionResult<string> Get()
+        public async Task<ActionResult<List<TemperatureModel>>> GetAsync()
         {
+            return Ok(await _dataReader.GetData());
 
-            // get data from Idatareader (kommer in i konstruktorn) (temperature model=
-            return _dataReader.GetDataAsJSON();
-            //var rng = new Random();
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    Date = DateTime.Now.AddDays(index),
-            //    TemperatureC = rng.Next(-20, 55),
-            //    Summary = Summaries[rng.Next(Summaries.Length)]
-            //})
-            //.ToArray();
+        }
+        [HttpGet("highesttemperature")]
+        public async Task<ActionResult<float>> GetHighestTemperature()
+        {
+            return Ok(_weatheranalyzer.CheckMax(await _dataReader.GetData()));
+            // return Ok( _weatheranalyzer.CheckMax(await _dataReader.GetData()).ToString() + "C, occured on " + _weatheranalyzer.GetWarmestDate(await _dataReader.GetData()).ToString());
+
+        }
+
+        [HttpGet("lowesttemperature")]
+        public async Task<ActionResult<float>> GetLowestTemperature()
+        {
+            return Ok(_weatheranalyzer.CheckMin(await _dataReader.GetData()));
+            //return Ok(_weatheranalyzer.CheckMin(await _dataReader.GetData()).ToString() + "C, occured on " + _weatheranalyzer.GetColdestDate(await _dataReader.GetData()).ToString());
+
+        }
+
+        [HttpGet("averagetemperature")]
+        public async Task<ActionResult<float>> GetAverageTemperature()
+        {
+            return Ok(_weatheranalyzer.CheckAverage(await _dataReader.GetData()));
+
         }
     }
 }

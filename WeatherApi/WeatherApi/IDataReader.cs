@@ -6,7 +6,6 @@ namespace WeatherApi
 {
     public interface IDataReader
     {
-        List<TemperatureModel> GetData();
-        string GetDataAsJSON();
+        Task<List<TemperatureModel>> GetData();
     }
 }

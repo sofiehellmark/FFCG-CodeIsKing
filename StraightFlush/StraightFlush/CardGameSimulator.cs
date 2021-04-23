@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace StraightFlush.Program
 {
     public class CardGameSimulator
     {
-        private List<IRule> _rules; 
+        private List<IRule> _rules;
+        
 
         public CardGameSimulator(List<IRule> rules)
         {
@@ -16,18 +16,19 @@ namespace StraightFlush.Program
         public int RunGame()
         {
             Deck deck = new Deck();
-            bool GameComplete = false;
-            var tries = 0;
-
-            while (!GameComplete)
+            bool gameComplete = false;
+            int tries = 0;
+            Hand hand = new Hand(deck.DrawCards(5));
+            while (!gameComplete)
             {
                 tries++;
                 deck.ShuffledDeck();
-                Hand hand = new Hand(deck.DrawCards(5));
-                GameComplete = CheckHand(hand);
+                hand = new Hand(deck.DrawCards(5));
+                gameComplete = CheckHand(hand);
             }
-            return tries;
+            hand.PrintHand();
 
+            return tries;
         }
         
 
@@ -43,8 +44,5 @@ namespace StraightFlush.Program
             return true; 
         }
 
-
     }
-
-
-    }
+}

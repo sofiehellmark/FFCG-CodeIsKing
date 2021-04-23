@@ -7,13 +7,12 @@ namespace StraightFlush.Program
 
     public class FlushRule : IRule
     {
-        // Test one correct hand and one incorrect
         public bool CheckRule(Hand hand)
         {
-            var thisHand = hand.showHand();
+            var thisHand = hand.ShowHand();
             var ThisSuit = thisHand[0].Suit;
 
-            foreach (Card card in hand.showHand())
+            foreach (Card card in hand.ShowHand())
             {
                 if (ThisSuit != card.Suit)
                 {
@@ -24,57 +23,75 @@ namespace StraightFlush.Program
 
         }
 
-
-
     }
+
     public class StraightRule : IRule
     {
         public bool CheckRule(Hand hand)
         {
-            //TODO: clean up 
-            var thisHand = hand.showHand();
-            var values = thisHand.Select(card => card.Value).ToList();
+            //TODO: clean up
+            var thisHand = hand.ShowHand();
+            var valuesInHand = thisHand.Select(card => card.Value).ToList();
 
-            List<List<int>> valuesList = new List<List<int>>
+            List<List<int>> valuesInHandList = new List<List<int>>
             {
-                values
+                valuesInHand
             };
 
 
-            if (values.Contains(1))
+            if (valuesInHand.Contains(1)) // if ace must analyze two hands
             {
-                List<int> values2 = new List<int>(values);
-                values2.Remove(1);
-                values2.Add(14);
-                valuesList.Add(values2);
-
+                List<int> valuesAceHigh = new List<int>(valuesInHand);
+                valuesAceHigh.Remove(1);
+                valuesAceHigh.Add(14);
+                valuesInHandList.Add(valuesAceHigh);
             }
-            // Here only needs to be correct in one of them
-            var hand_ok = new List<bool>();
-            foreach (List<int> v in valuesList)
+
+            var handIsOk = new List<bool>();
+
+            foreach (List<int> values in valuesInHandList)
             {
-                var diff = v.Max() - v.Min();
-                if (diff != 4)
-                {
-                    hand_ok.Add(false);
-                    continue;
-
-                }
-
-                if (v.Distinct().Count() != v.Count())
-                {
-                    hand_ok.Add(false);
-                    continue;
+                handIsOk.Add(CheckIfStraigh(values));
+            }
+            return handIsOk.Contains(true);
+        }
 
 
-                }
 
-                hand_ok.Add(true);
+        private bool CheckIfStraigh(List<int> valuesInHand)
+        {
+            var diff = valuesInHand.Max() - valuesInHand.Min();
+            if (diff != 4)
+            {
+                return false;
 
             }
 
+            if (valuesInHand.Distinct().Count() != valuesInHand.Count())
+            {
+                return false;
 
-            return hand_ok.Contains(true);
+            }
+            return true;
+
+
+        }
+
+      
+    }
+
+    public class RoyalRule : IRule
+    {
+        public bool CheckRule(Hand hand)
+        {
+            
+            var thisHand = hand.ShowHand();
+            var valuesInHand = thisHand.Select(card => card.Value).ToList();
+            var straigh = new StraightRule(); 
+            return (valuesInHand.Max() == 13 & valuesInHand.Min() == 1 & straigh.CheckRule(hand));
+
         }
     }
+       
+
 }

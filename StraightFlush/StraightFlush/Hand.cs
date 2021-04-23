@@ -5,7 +5,7 @@ namespace StraightFlush.Program
 {
     public class Hand
     {
-        public List<Card> myHand = new List<Card>(5);
+        private List<Card> myHand = new List<Card>();
 
         public Hand(List<Card> cards)
         {
@@ -13,9 +13,17 @@ namespace StraightFlush.Program
         }
 
 
-        public List<Card> showHand()
+        public List<Card> ShowHand()
         {
             return myHand;
+        }
+
+        public void PrintHand()
+        {
+            foreach (Card cards in myHand)
+            {
+                Console.WriteLine($"{cards.Value} {cards.Suit}");
+            }
         }
 
     }

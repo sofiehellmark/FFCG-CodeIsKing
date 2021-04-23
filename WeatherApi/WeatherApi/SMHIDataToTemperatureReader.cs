@@ -1,39 +1,42 @@
-﻿
-using System;
+﻿using System.Web;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace AnalyzeWeather
+namespace WeatherApi
 {
     public class SMHIDataToTemperatureReader : IDataReader
     {
         private int _place;
-        private string _info; 
+        private List<TemperatureModel> data;
 
-        public SMHIDataToTemperatureReader(int place)//, DateTime startDate, DateTime endDate )
+        public SMHIDataToTemperatureReader(int place)
         {
             _place = place;
         }
 
         public async Task<List<TemperatureModel>> GetData()
         {
-          
-            HttpClient client = new HttpClient();
             var url = $"https://opendata-download-metobs.smhi.se/api/version/latest/parameter/1/station/" + _place.ToString() + "/period/latest-months/data.json";
             var httpClient = new HttpClient();
-            var rootResponse = await httpClient.GetFromJsonAsync<WeatherForecast>(url);
            
+            var rootResponse = await httpClient.GetAsync(url);
+          
+            //if (rootResponse.StatusCode == HttpStatusCode.NotFound)
+            //{
+            //    throw new System.Exception("Url not found");
+            //}
+
+            var result = await rootResponse.Content.ReadFromJsonAsync<SMHIWeatherForecast>();
             var SMHIconverter = new ConvertSMHIData();
-            _info = rootResponse.period.ToString();
+            data = SMHIconverter.ToTemperatureModel(result);
 
-            return SMHIconverter.ToTemperatureModel(rootResponse);
+            return data;
         }
-
-  
 
     }
 }

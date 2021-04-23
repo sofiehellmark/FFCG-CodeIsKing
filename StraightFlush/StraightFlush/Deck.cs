@@ -11,10 +11,11 @@ namespace StraightFlush.Program
 
         public Deck()
         {
-            string[] Suits = { "Heart", "Clubs", "Diamonds", "Spades" }; // TODO: make enum
+            // string[] Suits = { "Heart", "Clubs", "Diamonds", "Spades" };
+           // Suits suits = new Suits();
             IEnumerable<int> Values = Enumerable.Range(1, 13);
 
-            foreach (string Suit in Suits)
+            foreach ( Suits Suit in Enum.GetValues(typeof(Suits))) 
             {
                 foreach (int Value in Values)
                 {
